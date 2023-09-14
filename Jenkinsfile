@@ -6,7 +6,7 @@ pipeline {
                 docker { image 'maven:3.6.3-openjdk-11-slim' }
             }
             steps {
-                git credentialsId: 'github',
+                git credentialsId: 'github-credentials',
                     url: 'https://github.com/emmatolalaca/galaxy-examen-final-tola-emma.git',
                     branch: 'main'
                 sh 'mvn -B verify'
