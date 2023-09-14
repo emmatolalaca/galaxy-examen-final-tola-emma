@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDS = credentials('docker-credentials')
+        DOCKER_CREDS = credentials('dockerhub-credentials')
     }
     stages {
         stage('Checkout') {
@@ -71,7 +71,7 @@ pipeline {
                 script {
                     sh 'docker login -u ${DOCKER_CREDS_USR} -p ${DOCKER_CREDS_PSW}'
                     sh 'docker rm galaxyLabMaven -f'
-                    sh 'docker run -d -p 8081:8080 --name galaxyLabMaven ${DOCKER_CREDS_USR}/msmicroservice:$BUILD_NUMBER'
+                    sh 'docker run -d -p 8080:8080 --name galaxyLabMaven ${DOCKER_CREDS_USR}/msmicroservice:$BUILD_NUMBER'
                     sh 'docker logout'
                 }
             }
