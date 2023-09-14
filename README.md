@@ -1,1 +1,7 @@
-# galaxy-examen-final-tola-emma
+
+
+```
+curl http://localhost:8080/customers
+```
+
+
