@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCKER_CREDS = credentials('docker-credentials')
+        DOCKER_CREDS = credentials('dockerhub-credentials')
         }
     stages {
         stage('Build') {
@@ -15,7 +15,7 @@ pipeline {
             }
             post{
                 success {
-                    archiveArtifacts artifacts: 'target/labmaven-*.jar', fingerprint: true, onlyIfSuccessful: true
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true, onlyIfSuccessful: true
                 }
             }
         }
@@ -28,8 +28,8 @@ pipeline {
                     def scannerHome = tool 'scanner-default';
                     withSonarQubeEnv('sonar-server') {
                         sh "${scannerHome}/bin/sonar-scanner \
-                            -Dsonar.projectKey=lab-maven \
-                            -Dsonar.projectName=lab-maven \
+                            -Dsonar.projectKey=labmaven01 \
+                            -Dsonar.projectName=labmaven01 \
                             -Dsonar.sources=src/main \
                             -Dsonar.sourceEncoding=UTF-8 \
                             -Dsonar.language=java \
@@ -48,7 +48,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                copyArtifacts filter: 'target/labmaven-*.jar',
+                copyArtifacts filter: 'target/*.jar',
                                 fingerprintArtifacts: true,
                                 projectName: '${JOB_NAME}',
                                 flatten: true,
